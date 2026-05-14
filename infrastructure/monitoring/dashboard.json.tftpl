@@ -1,0 +1,344 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "ALB - Healthy vs Unhealthy Targets",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/ApplicationELB", "HealthyHostCount", "TargetGroup", "${target_group_arn_suffix}", "LoadBalancer", "${alb_arn_suffix}", { "color": "#2ca02c", "label": "Healthy" }],
+          [".", "UnHealthyHostCount", ".", ".", ".", ".", { "color": "#d62728", "label": "Unhealthy" }]
+        ],
+        "yAxis": { "left": { "min": 0 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 0, "label": "Target", "color": "#2ca02c" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 6,
+      "y": 0,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "ALB - Request Count",
+        "region": "${region}",
+        "stat": "Sum",
+        "period": 300,
+        "metrics": [
+          ["AWS/ApplicationELB", "RequestCount", "LoadBalancer", "${alb_arn_suffix}"]
+        ],
+        "yAxis": { "left": { "min": 0 } }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 0,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "ALB - Target Response Time",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/ApplicationELB", "TargetResponseTime", "LoadBalancer", "${alb_arn_suffix}"]
+        ],
+        "yAxis": { "left": { "min": 0 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 1.0, "label": "1s threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 18,
+      "y": 0,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "ALB - HTTP Response Codes",
+        "region": "${region}",
+        "stat": "Sum",
+        "period": 300,
+        "metrics": [
+          ["AWS/ApplicationELB", "HTTPCode_Target_2XX_Count", "LoadBalancer", "${alb_arn_suffix}", { "color": "#2ca02c", "label": "2xx Success" }],
+          [".", "HTTPCode_Target_4XX_Count", ".", ".", { "color": "#ff7f0e", "label": "4xx Client Error" }],
+          [".", "HTTPCode_Target_5XX_Count", ".", ".", { "color": "#d62728", "label": "5xx Server Error" }]
+        ],
+        "yAxis": { "left": { "min": 0 } }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 6,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "ECS Fargate - CPU Utilization",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/ECS", "CPUUtilization", "ServiceName", "${ecs_service_name}", "ClusterName", "${ecs_cluster_name}"]
+        ],
+        "yAxis": { "left": { "min": 0, "max": 100 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 80, "label": "Warning threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 6,
+      "y": 6,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "ECS Fargate - Memory Utilization",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/ECS", "MemoryUtilization", "ServiceName", "${ecs_service_name}", "ClusterName", "${ecs_cluster_name}"]
+        ],
+        "yAxis": { "left": { "min": 0, "max": 100 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 80, "label": "Warning threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 6,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "ECS Fargate - Task Count",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["ECS/ContainerInsights", "RunningTaskCount", "ServiceName", "${ecs_service_name}", "ClusterName", "${ecs_cluster_name}", { "color": "#2ca02c", "label": "Running" }],
+          [".", "DesiredTaskCount", ".", ".", ".", ".", { "color": "#1f77b4", "label": "Desired" }],
+          [".", "PendingTaskCount", ".", ".", ".", ".", { "color": "#ff7f0e", "label": "Pending" }]
+        ],
+        "yAxis": { "left": { "min": 0 } }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 18,
+      "y": 6,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "ECS Fargate - Service Health",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["ECS/ContainerInsights", "RunningTaskCount", "ServiceName", "${ecs_service_name}", "ClusterName", "${ecs_cluster_name}", { "label": "Running" }],
+          ["...", { "stat": "Maximum", "label": "Desired", "color": "#d62728" }]
+        ],
+        "yAxis": { "left": { "min": 0 } }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 12,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "Aurora - Database Connections",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/RDS", "DatabaseConnections", "DBClusterIdentifier", "${db_cluster_id}"]
+        ],
+        "yAxis": { "left": { "min": 0 } },
+        "annotations": {
+          "horizontal": [
+            { "value": ${db_connections_threshold}, "label": "Warning threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 6,
+      "y": 12,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "Aurora - CPU Utilization",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/RDS", "CPUUtilization", "DBClusterIdentifier", "${db_cluster_id}"]
+        ],
+        "yAxis": { "left": { "min": 0, "max": 100 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 85, "label": "Warning threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 12,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "Aurora - Read/Write Latency",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/RDS", "ReadLatency", "DBClusterIdentifier", "${db_cluster_id}", { "color": "#1f77b4", "label": "Read Latency" }],
+          [".", "WriteLatency", ".", ".", { "color": "#ff7f0e", "label": "Write Latency" }]
+        ],
+        "yAxis": { "left": { "min": 0 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 0.1, "label": "100ms threshold", "color": "#d62728" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 18,
+      "y": 12,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "Aurora - Freeable Memory",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/RDS", "FreeableMemory", "DBClusterIdentifier", "${db_cluster_id}"]
+        ],
+        "yAxis": { "left": { "min": 0 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 500000000, "label": "500 MB threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 18,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "Redis - Cache Hit Rate",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/ElastiCache", "CacheHitRate", "ReplicationGroupId", "${redis_replication_group_id}"]
+        ],
+        "yAxis": { "left": { "min": 0, "max": 100 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 80, "label": "Critical threshold", "color": "#d62728" },
+            { "value": 90, "label": "Good", "color": "#2ca02c" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 6,
+      "y": 18,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "Redis - Evictions",
+        "region": "${region}",
+        "stat": "Sum",
+        "period": 300,
+        "metrics": [
+          ["AWS/ElastiCache", "Evictions", "ReplicationGroupId", "${redis_replication_group_id}"]
+        ],
+        "yAxis": { "left": { "min": 0 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 100, "label": "Warning threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 18,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "Redis - CPU Utilization",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/ElastiCache", "CPUUtilization", "ReplicationGroupId", "${redis_replication_group_id}"]
+        ],
+        "yAxis": { "left": { "min": 0, "max": 100 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 70, "label": "Warning threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 18,
+      "y": 18,
+      "width": 6,
+      "height": 6,
+      "properties": {
+        "title": "Redis - Memory Usage",
+        "region": "${region}",
+        "stat": "Average",
+        "period": 300,
+        "metrics": [
+          ["AWS/ElastiCache", "DatabaseMemoryUsagePercentage", "ReplicationGroupId", "${redis_replication_group_id}"]
+        ],
+        "yAxis": { "left": { "min": 0, "max": 100 } },
+        "annotations": {
+          "horizontal": [
+            { "value": 90, "label": "Warning threshold", "color": "#ff7f0e" }
+          ]
+        }
+      }
+    }
+  ]
+}
